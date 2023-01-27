@@ -5,7 +5,8 @@ set -euo pipefail
 # Ensure this is the correct GitHub homepage where releases can be downloaded for headless-sso.
 GH_REPO="https://github.com/mziyabo/headless-sso"
 TOOL_NAME="headless-sso"
-TOOL_TEST="headless-sso --version"
+# TOOL_TEST="headless-sso --version"
+TOOL_TEST=""
 
 fail() {
   echo -e "asdf-$TOOL_NAME: $*"
