@@ -42,8 +42,8 @@ download_release() {
   version="$1"
   filename="$2"
 
-  # TODO: Adapt the release URL convention for headless-sso
-  url="$GH_REPO/archive/v${version}.tar.gz"
+  # Adapt the release URL convention for headless-sso
+  url="$GH_REPO/releases/download/${version}/${TOOL_NAME}_${version}_$(get_release_nugget).tar.gz"
 
   echo "* Downloading $TOOL_NAME release $version..."
   curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
@@ -69,7 +69,40 @@ install_version() {
 
     echo "$TOOL_NAME $version installation was successful!"
   ) || (
-    rm -rf "$install_path"
+    #rm -rf "$install_path"
     fail "An error occurred while installing $TOOL_NAME $version."
   )
+}
+
+get_arch() {
+  uname -m | tr '[:upper:]' '[:lower:]'
+}
+
+get_platform() {
+  uname | tr '[:upper:]' '[:lower:]'
+}
+
+get_release_nugget() {
+  local nugget
+
+  case $(get_arch)-$(get_platform) in
+  arm64-darwin)
+    nugget='Darwin_arm64' ;;
+  x86_64-darwin)
+    nugget='x86_64-apple-darwin' ;;
+  arm*-linux)
+    nugget='arm-unknown-linux-gnueabihf' ;;
+  x86_64-linux)
+    nugget='x86_64-unknown-linux-musl' ;;
+  i[3456]86-linux)
+    nugget='i686-unknown-linux-musl' ;;
+  x86_64-windows)
+    nugget='x86_64-pc-windows-msvc' ;;
+  i[3456]-windows)
+    nugget='i686-pc-windows-msvc' ;;
+  *)
+    nugget="$(get_arch)-$(get_platform)"
+  esac
+
+  echo "${nugget}"
 }

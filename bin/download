@@ -2,38 +2,6 @@
 
 set -euo pipefail
 
-get_arch() {
-  uname -m | tr '[:upper:]' '[:lower:]'
-}
-
-get_platform() {
-  uname | tr '[:upper:]' '[:lower:]'
-}
-
-get_release_nugget() {
-  local nugget
-
-  case $(get_arch)-$(get_platform) in
-  arm64-darwin)
-    nugget='x86_64-apple-darwin' ;;
-  x86_64-darwin)
-    nugget='x86_64-apple-darwin' ;;
-  arm*-linux)
-    nugget='arm-unknown-linux-gnueabihf' ;;
-  x86_64-linux)
-    nugget='x86_64-unknown-linux-musl' ;;
-  i[3456]86-linux)
-    nugget='i686-unknown-linux-musl' ;;
-  x86_64-windows)
-    nugget='x86_64-pc-windows-msvc' ;;
-  i[3456]-windows)
-    nugget='i686-pc-windows-msvc' ;;
-  *)
-    nugget="$(get_arch)-$(get_platform)"
-  esac
-
-  echo "${nugget}"
-}
 
 current_script_path=${BASH_SOURCE[0]}
 plugin_dir=$(dirname "$(dirname "$current_script_path")")
@@ -43,7 +11,7 @@ source "${plugin_dir}/lib/utils.bash"
 
 mkdir -p "$ASDF_DOWNLOAD_PATH"
 
-# TODO: Adapt this to proper extension and adapt extracting strategy.
+# Adapt this to proper extension and adapt extracting strategy.
 release_file="$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$ASDF_INSTALL_VERSION-$(get_release_nugget).tar.gz"
 
 # Download tar.gz file to the download directory
