@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-# TODO: Ensure this is the correct GitHub homepage where releases can be downloaded for headless-sso.
+# Ensure this is the correct GitHub homepage where releases can be downloaded for headless-sso.
 GH_REPO="https://github.com/mziyabo/headless-sso"
 TOOL_NAME="headless-sso"
 TOOL_TEST="headless-sso --version"
@@ -31,7 +31,7 @@ list_github_tags() {
 }
 
 list_all_versions() {
-  # TODO: Adapt this. By default we simply list the tag names from GitHub releases.
+  # Adapt this. By default we simply list the tag names from GitHub releases.
   # Change this function if headless-sso has other means of determining installable versions.
   list_github_tags
 }
